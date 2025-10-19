@@ -1,160 +1,488 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pempek Kenyal 🍢</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2921/2921822.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pempek Kenyal — Asli Palembang, Dijamin Nagih!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #ffac1b 0%, #d97706 100%);
+        }
+        
+        .pempek-card {
+            transition: all 0.3s ease;
+        }
+        
+        .pempek-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            transform: translateY(-2px);
+        }
+        
+        .cart-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
+<body class="bg-amber-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-amber-600">Pempek Wong Kito</h1>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-amber-600 transition-colors">Beranda</a>
+                    <a href="#products" class="text-gray-700 hover:text-amber-600 transition-colors">Produk</a>
+                    <a href="#about" class="text-gray-700 hover:text-amber-600 transition-colors">Tentang Kami</a>
+                    <a href="#contact" class="text-gray-700 hover:text-amber-600 transition-colors">Kontak</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="showCart()" class="relative bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors">
+                        🛒 Keranjang
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm cart-badge hidden">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-<body class="bg-yellow-50 text-gray-800 font-sans">
-  <!-- Navbar -->
-  <nav class="bg-amber-500 text-white py-4 shadow-md">
-    <div class="container mx-auto flex justify-between items-center px-4">
-      <div class="flex items-center space-x-2">
-        <img src="https://cdn-icons-png.flaticon.com/512/2921/2921822.png" class="h-8" alt="logo">
-        <h1 class="text-xl font-bold">Pempek Kenyal</h1>
-      </div>
-      <div class="space-x-4">
-        <a href="#produk" class="hover:underline">Produk</a>
-        <a href="#tentang" class="hover:underline">Tentang</a>
-        <a href="#kontak" class="hover:underline">Kontak</a>
-        <button id="cartButton" class="bg-white text-amber-600 font-semibold px-3 py-1 rounded shadow hover:bg-amber-100">
-          🛒 <span id="cartCount">0</span>
-        </button>
-      </div>
+    <!-- Home Section -->
+    <section id="home" class="hero-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <h2 class="text-5xl font-bold mb-6">Pempek Asli Palembang</h2>
+                    <p class="text-xl mb-4">Gurih, Kenyal, dan Bikin Nagih!</p>
+                    <p class="text-lg mb-8 opacity-90">Nikmati kelezatan pempek autentik Palembang yang dibuat dengan resep turun temurun. Setiap gigitan memberikan cita rasa yang tak terlupakan!</p>
+                    <button onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})" class="btn-primary text-white px-8 py-4 rounded-lg text-lg font-semibold">
+                        🍽️ Pesan Sekarang
+                    </button>
+                </div>
+                <div class="text-center">
+                    <div class="bg-white bg-opacity-20 rounded-3xl p-5 backdrop-blur-sm">
+                        <img src="images/pempekwongkito.jpg" alt="pempekwongkito" class="w-32 sm:w-48 md:w-64 h-auto object-contain mx-auto rounded-lg mb-4">
+                        <p class="text-lg">Sejak 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Menu Kami</h2>
+                <p class="text-xl text-gray-600">Pilihan pempek terbaik dengan cuko yang mantap!</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-amber-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-6">Tentang Pempek Wong Kito</h2>
+                    <p class="text-lg text-gray-700 mb-6">
+                        Pempek Wong Kito berdiri pada tahun 2025 di Jakarta Utara, namun cita rasanya tetap membawa nuansa khas Palembang asli. Dikelola oleh keluarga Palembang yang sudah turun-temurun membuat pempek sejak lama, setiap resep kami diwariskan dari generasi ke generasi — menjaga rasa otentik yang kenyal, gurih, dan kaya rempah.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-6">
+                        Kami percaya bahwa pempek bukan sekadar makanan, tapi juga bagian dari budaya dan kebanggaan wong kito galo. Karena itu, kami berkomitmen menyajikan pempek terbaik dengan bahan segar, cuko racikan tradisional, dan sentuhan kasih dari dapur keluarga.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-6">
+                        Dari Palembang untuk semua pecinta kuliner Indonesia — Pempek Wong Kito, rasa asli yang tak pernah berubah.
+                    </p>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-amber-600">38K+</div>
+                            <div class="text-gray-600">Pesanan</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-amber-600">20K+</div>
+                            <div class="text-gray-600">Pelanggan Puas</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="bg-white rounded-3xl p-8 shadow-lg">
+                        <img src="images/potosaya.jpg" alt="Pemilik" class="w-full h-80 object-cover rounded-lg mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Duga Saka Uni</h3>
+                        <p class="text-gray-600">Pemilik & Chef Pempek Wong Kito</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Hubungi Kami</h2>
+                <p class="text-xl text-gray-600">Siap melayani pesanan Anda setiap hari!</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6 bg-amber-50 rounded-xl">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold mb-2">WhatsApp</h3>
+                    <p class="text-gray-600 mb-4">Pesan langsung via WhatsApp</p>
+                    <a href="https://wa.me/6282375386567" target="_blank" rel="noopener noreferrer" class="btn-primary text-white px-6 py-2 rounded-lg inline-block">
+                        Chat Sekarang
+                    </a>
+                </div>
+                
+                <div class="text-center p-6 bg-amber-50 rounded-xl">
+                    <div class="text-4xl mb-4">📷</div>
+                    <h3 class="text-xl font-bold mb-2">Instagram</h3>
+                    <p class="text-gray-600 mb-4">Follow untuk update menu</p>
+                    <a href="https://instagram.com/duga_14" target="_blank" rel="noopener noreferrer" class="btn-primary text-white px-6 py-2 rounded-lg inline-block">
+                        Follow Kami
+                    </a>
+                </div>
+                
+                <div class="text-center p-6 bg-amber-50 rounded-xl">
+                    <div class="text-4xl mb-4">📍</div>
+                    <h3 class="text-xl font-bold mb-2">Alamat Toko</h3>
+                    <p class="text-gray-600 mb-4">Jl. Muara baru, Penjaringan<br>Jakarta Utara, Jakarta</p>
+                    <a href="https://www.google.com/maps?q=Penjaringan,+Muara+Baru,+Jakarta+Utara" target="_blank" rel="noopener noreferrer" class="btn-primary text-white px-6 py-2 rounded-lg inline-block">📍 Lihat di Google Maps </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-2xl w-full max-h-96 overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold">Keranjang Belanja</h3>
+                        <button onclick="hideCart()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                    </div>
+                    
+                    <div id="cart-items" class="space-y-4 mb-6">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    
+                    <div class="border-t pt-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xl font-bold">Total:</span>
+                            <span id="cart-total" class="text-xl font-bold text-amber-600">Rp 0</span>
+                        </div>
+                        <button onclick="showCheckout()" class="w-full btn-primary text-white py-3 rounded-lg text-lg font-semibold">
+                            Checkout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <!-- Hero Section -->
-  <section class="text-center py-16 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1602666386570-8783c71ffcca?auto=format&fit=crop&w=1200&q=60');">
-    <div class="bg-black bg-opacity-50 p-10 inline-block rounded-lg">
-      <h2 class="text-3xl font-bold text-white mb-3">Rasakan Gurih Asli Pempek Palembang</h2>
-      <p class="text-gray-200 mb-5">Kenikmatan cuko dan ikan tenggiri segar dalam setiap gigitan.</p>
-      <a href="#produk" class="bg-amber-500 text-white px-6 py-2 rounded font-semibold hover:bg-amber-400 transition">Beli Sekarang</a>
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-2xl w-full max-h-96 overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold">Checkout Pesanan</h3>
+                        <button onclick="hideCheckout()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                    </div>
+                    
+                    <form id="checkout-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                            <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nomor HP</label>
+                            <input type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Alamat Lengkap</label>
+                            <textarea required rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Metode Pembayaran</label>
+                            <select required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                                <option value="">Pilih metode pembayaran</option>
+                                <option value="cod">COD (Bayar di Tempat)</option>
+                                <option value="transfer">Transfer Bank</option>
+                                <option value="ewallet">E-Wallet (OVO/GoPay/DANA)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="border-t pt-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-lg font-bold">Total Pembayaran:</span>
+                                <span id="checkout-total" class="text-lg font-bold text-amber-600">Rp 0</span>
+                            </div>
+                            <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg text-lg font-semibold">
+                                Kirim Pesanan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </section>
 
-  <!-- Produk -->
-  <section id="produk" class="container mx-auto py-14 px-6">
-    <h2 class="text-2xl font-bold text-center mb-8 text-amber-700">Menu Pempek Kami</h2>
-    <div class="grid md:grid-cols-4 sm:grid-cols-2 gap-8">
-      <!-- Produk cards akan di-generate dari JS -->
-    </div>
-  </section>
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "Pempek Kapal Selam",
+                price: 15000,
+                image: "images/pempekkapalselam.jpeg",
+                description: "Pempek isi telur yang gurih dan kenyal"
+            },
+            {
+                id: 2,
+                name: "Pempek Lenjer",
+                price: 8000,
+                image: "images/pempeklenjer.jpg",
+                description: "Pempek klasik berbentuk panjang"
+            },
+            {
+                id: 3,
+                name: "Pempek Adaan",
+                price: 12000,
+                image: "images/pempekadaan.jpg",
+                description: "Pempek bulat dengan tekstur lembut"
+            },
+            {
+                id: 4,
+                name: "Pempek Kulit",
+                price: 10000,
+                image: "images/pempekkulit.png",
+                description: "Pempek dari kulit ikan yang kenyal"
+            },
+            {
+                id: 5,
+                name: "Paket Frozen Mix",
+                price: 35000,
+                image: "images/Pempekfrozenmix.jpg",
+                description: "Paket lengkap berbagai jenis pempek"
+            },
+            {
+                id: 6,
+                name: "Tekwan",
+                price: 18000,
+                image: "images/tekwan.jpg",
+                description: "Sup pempek dengan kuah kaldu segar"
+            }
+        ];
 
-  <!-- Modal Keranjang -->
-  <div id="cartModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white rounded-lg p-6 w-96 relative">
-      <h3 class="text-xl font-bold mb-4 text-amber-600">🛒 Keranjang Belanja</h3>
-      <div id="cartItems" class="mb-4 space-y-2"></div>
-      <p id="cartTotal" class="font-bold text-right mb-4">Total: Rp0</p>
-      <button id="checkoutBtn" class="bg-amber-500 text-white w-full py-2 rounded hover:bg-amber-600">Checkout via WhatsApp</button>
-      <button id="closeCart" class="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-xl">✕</button>
-    </div>
-  </div>
+        let cart = [];
 
-  <!-- Tentang -->
-  <section id="tentang" class="bg-amber-100 py-14 text-center px-6">
-    <h2 class="text-2xl font-bold text-amber-700 mb-4">Tentang Kami</h2>
-    <p class="max-w-2xl mx-auto text-gray-700">
-      Pempek Kenyal adalah UMKM dari Palembang yang menghadirkan cita rasa otentik dengan bahan segar, 
-      ikan tenggiri pilihan, dan cuko khas buatan sendiri. Kami percaya, setiap gigitan pempek membawa kebahagiaan!
-    </p>
-  </section>
+        // Load products
+        function loadProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = products.map(product => `
+                <div class="pempek-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 text-center">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">${product.name}</h3>
+                        <p class="text-gray-600 mb-4">${product.description}</p>
+                        <div class="text-2xl font-bold text-amber-600 mb-4">Rp ${product.price.toLocaleString()}</div>
+                        <button onclick="addToCart(${product.id})" class="btn-primary text-white px-6 py-2 rounded-lg w-full">
+                            Tambah ke Keranjang
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-  <!-- Kontak -->
-  <section id="kontak" class="py-14 text-center px-6">
-    <h2 class="text-2xl font-bold text-amber-700 mb-4">Hubungi Kami</h2>
-    <p>📍 Fave Hotel Kelapa Gading, Jakarta</p>
-    <p>📞 <a href="https://wa.me/6281234567890" target="_blank" class="text-amber-600 hover:underline">0812-3456-7890</a></p>
-    <p>📸 <a href="https://instagram.com/pempekkenyal" target="_blank" class="text-amber-600 hover:underline">@pempekkenyal</a></p>
-  </section>
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+            
+            updateCartUI();
+            
+            // Show success message
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '✓ Ditambahkan!';
+            button.style.background = '#10b981';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 1000);
+        }
 
-  <!-- Footer -->
-  <footer class="bg-amber-500 text-white text-center py-4">
-    <p>© 2025 Pempek Kenyal — Asli Palembang, Dijamin Nagih!</p>
-  </footer>
+        // Update cart UI
+        function updateCartUI() {
+            const cartCount = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                cartCount.textContent = totalItems;
+                cartCount.classList.remove('hidden');
+            } else {
+                cartCount.classList.add('hidden');
+            }
+        }
 
-  <script>
-    // ====== Data Produk ======
-    const products = [
-      { name: "Pempek Kapal Selam", price: 18000, image: "https://images.unsplash.com/photo-1623060332996-bf0c28a7afae?auto=format&fit=crop&w=600&q=60" },
-      { name: "Pempek Lenjer", price: 12000, image: "https://images.unsplash.com/photo-1597806995590-6f8d1dbddcc4?auto=format&fit=crop&w=600&q=60" },
-      { name: "Pempek Adaan", price: 10000, image: "https://images.unsplash.com/photo-1624466113928-d8d4d8cb90d4?auto=format&fit=crop&w=600&q=60" },
-      { name: "Paket Mix Pempek", price: 50000, image: "https://images.unsplash.com/photo-1617196032284-4d4d324a58b9?auto=format&fit=crop&w=600&q=60" }
-    ];
+        // Show cart
+        function showCart() {
+            const modal = document.getElementById('cart-modal');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center text-gray-500 py-8">Keranjang masih kosong</p>';
+                cartTotal.textContent = 'Rp 0';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-4">
+                            <div class="text-2xl">${item.image}</div>
+                            <div>
+                                <h4 class="font-semibold">${item.name}</h4>
+                                <p class="text-gray-600">Rp ${item.price.toLocaleString()}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="bg-gray-200 px-2 py-1 rounded">-</button>
+                            <span class="px-3">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="bg-gray-200 px-2 py-1 rounded">+</button>
+                            <button onclick="removeFromCart(${item.id})" class="text-red-500 ml-4">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                cartTotal.textContent = `Rp ${total.toLocaleString()}`;
+            }
+            
+            modal.classList.remove('hidden');
+        }
 
-    // ====== Tampilkan Produk ======
-    const grid = document.querySelector('.grid');
-    products.forEach(p => {
-      const card = document.createElement('div');
-      card.className = "bg-white rounded-lg shadow-lg overflow-hidden";
-      card.innerHTML = `
-        <img src="${p.image}" alt="${p.name}" class="w-full h-48 object-cover">
-        <div class="p-4 text-center">
-          <h3 class="font-semibold text-lg mb-2">${p.name}</h3>
-          <p class="text-amber-600 font-bold mb-3">Rp${p.price.toLocaleString()}</p>
-          <button class="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600" onclick="addToCart('${p.name}', ${p.price})">Tambah</button>
-        </div>`;
-      grid.appendChild(card);
-    });
+        // Hide cart
+        function hideCart() {
+            document.getElementById('cart-modal').classList.add('hidden');
+        }
 
-    // ====== Keranjang Belanja ======
-    let cart = [];
+        // Update quantity
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartUI();
+                    showCart(); // Refresh cart display
+                }
+            }
+        }
 
-    function addToCart(name, price) {
-      const existing = cart.find(item => item.name === name);
-      if (existing) existing.quantity++;
-      else cart.push({ name, price, quantity: 1 });
-      updateCartCount();
-    }
+        // Remove from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+            showCart(); // Refresh cart display
+        }
 
-    function updateCartCount() {
-      document.getElementById('cartCount').textContent = cart.reduce((a, b) => a + b.quantity, 0);
-    }
+        // Show checkout
+        function showCheckout() {
+            if (cart.length === 0) {
+                alert('Keranjang masih kosong!');
+                return;
+            }
+            
+            hideCart();
+            const modal = document.getElementById('checkout-modal');
+            const checkoutTotal = document.getElementById('checkout-total');
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            checkoutTotal.textContent = `Rp ${total.toLocaleString()}`;
+            
+            modal.classList.remove('hidden');
+        }
 
-    const cartModal = document.getElementById('cartModal');
-    document.getElementById('cartButton').addEventListener('click', () => {
-      displayCart();
-      cartModal.classList.remove('hidden');
-    });
+        // Hide checkout
+        function hideCheckout() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
 
-    document.getElementById('closeCart').addEventListener('click', () => {
-      cartModal.classList.add('hidden');
-    });
+        // Handle checkout form
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(e.target);
+            const orderData = {
+                items: cart,
+                customer: {
+                    name: e.target.elements[0].value,
+                    phone: e.target.elements[1].value,
+                    address: e.target.elements[2].value,
+                    payment: e.target.elements[3].value
+                },
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+            };
+            
+            // Simulate order processing
+            alert('Pesanan berhasil dikirim! Kami akan menghubungi Anda segera untuk konfirmasi.');
+            
+            // Reset cart and close modal
+            cart = [];
+            updateCartUI();
+            hideCheckout();
+            e.target.reset();
+        });
 
-    function displayCart() {
-      const cartItemsDiv = document.getElementById('cartItems');
-      cartItemsDiv.innerHTML = '';
-      let total = 0;
-      cart.forEach(item => {
-        total += item.price * item.quantity;
-        cartItemsDiv.innerHTML += `
-          <div class="flex justify-between items-center border-b pb-1">
-            <span>${item.name} x${item.quantity}</span>
-            <span>Rp${(item.price * item.quantity).toLocaleString()}</span>
-          </div>`;
-      });
-      document.getElementById('cartTotal').textContent = `Total: Rp${total.toLocaleString()}`;
-    }
-
-    // ====== Checkout via WhatsApp ======
-    document.getElementById('checkoutBtn').addEventListener('click', () => {
-      if (cart.length === 0) {
-        alert('Keranjang masih kosong!');
-        return;
-      }
-      let message = "Halo, saya mau pesan Pempek Kenyal:%0A%0A";
-      let total = 0;
-      cart.forEach(item => {
-        message += `- ${item.name} x${item.quantity} = Rp${(item.price * item.quantity).toLocaleString()}%0A`;
-        total += item.price * item.quantity;
-      });
-      message += `%0ATotal: Rp${total.toLocaleString()}%0A%0AAlamat: [isi alamat Anda di sini]`;
-      window.open(`https://wa.me/6281234567890?text=${message}`, "_blank");
-    });
-  </script>
-</body>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98a6ac77e39d6034',t:'MTc1OTc2OTU5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
