@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pempek Kenyal 🍢</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2921/2921822.png">
+</head>
+
+<body class="bg-yellow-50 text-gray-800 font-sans">
+  <!-- Navbar -->
+  <nav class="bg-amber-500 text-white py-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <div class="flex items-center space-x-2">
+        <img src="https://cdn-icons-png.flaticon.com/512/2921/2921822.png" class="h-8" alt="logo">
+        <h1 class="text-xl font-bold">Pempek Kenyal</h1>
+      </div>
+      <div class="space-x-4">
+        <a href="#produk" class="hover:underline">Produk</a>
+        <a href="#tentang" class="hover:underline">Tentang</a>
+        <a href="#kontak" class="hover:underline">Kontak</a>
+        <button id="cartButton" class="bg-white text-amber-600 font-semibold px-3 py-1 rounded shadow hover:bg-amber-100">
+          🛒 <span id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="text-center py-16 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1602666386570-8783c71ffcca?auto=format&fit=crop&w=1200&q=60');">
+    <div class="bg-black bg-opacity-50 p-10 inline-block rounded-lg">
+      <h2 class="text-3xl font-bold text-white mb-3">Rasakan Gurih Asli Pempek Palembang</h2>
+      <p class="text-gray-200 mb-5">Kenikmatan cuko dan ikan tenggiri segar dalam setiap gigitan.</p>
+      <a href="#produk" class="bg-amber-500 text-white px-6 py-2 rounded font-semibold hover:bg-amber-400 transition">Beli Sekarang</a>
+    </div>
+  </section>
+
+  <!-- Produk -->
+  <section id="produk" class="container mx-auto py-14 px-6">
+    <h2 class="text-2xl font-bold text-center mb-8 text-amber-700">Menu Pempek Kami</h2>
+    <div class="grid md:grid-cols-4 sm:grid-cols-2 gap-8">
+      <!-- Produk cards akan di-generate dari JS -->
+    </div>
+  </section>
+
+  <!-- Modal Keranjang -->
+  <div id="cartModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white rounded-lg p-6 w-96 relative">
+      <h3 class="text-xl font-bold mb-4 text-amber-600">🛒 Keranjang Belanja</h3>
+      <div id="cartItems" class="mb-4 space-y-2"></div>
+      <p id="cartTotal" class="font-bold text-right mb-4">Total: Rp0</p>
+      <button id="checkoutBtn" class="bg-amber-500 text-white w-full py-2 rounded hover:bg-amber-600">Checkout via WhatsApp</button>
+      <button id="closeCart" class="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-xl">✕</button>
+    </div>
+  </div>
+
+  <!-- Tentang -->
+  <section id="tentang" class="bg-amber-100 py-14 text-center px-6">
+    <h2 class="text-2xl font-bold text-amber-700 mb-4">Tentang Kami</h2>
+    <p class="max-w-2xl mx-auto text-gray-700">
+      Pempek Kenyal adalah UMKM dari Palembang yang menghadirkan cita rasa otentik dengan bahan segar, 
+      ikan tenggiri pilihan, dan cuko khas buatan sendiri. Kami percaya, setiap gigitan pempek membawa kebahagiaan!
+    </p>
+  </section>
+
+  <!-- Kontak -->
+  <section id="kontak" class="py-14 text-center px-6">
+    <h2 class="text-2xl font-bold text-amber-700 mb-4">Hubungi Kami</h2>
+    <p>📍 Fave Hotel Kelapa Gading, Jakarta</p>
+    <p>📞 <a href="https://wa.me/6281234567890" target="_blank" class="text-amber-600 hover:underline">0812-3456-7890</a></p>
+    <p>📸 <a href="https://instagram.com/pempekkenyal" target="_blank" class="text-amber-600 hover:underline">@pempekkenyal</a></p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-amber-500 text-white text-center py-4">
+    <p>© 2025 Pempek Kenyal — Asli Palembang, Dijamin Nagih!</p>
+  </footer>
+
+  <script>
+    // ====== Data Produk ======
+    const products = [
+      { name: "Pempek Kapal Selam", price: 18000, image: "https://images.unsplash.com/photo-1623060332996-bf0c28a7afae?auto=format&fit=crop&w=600&q=60" },
+      { name: "Pempek Lenjer", price: 12000, image: "https://images.unsplash.com/photo-1597806995590-6f8d1dbddcc4?auto=format&fit=crop&w=600&q=60" },
+      { name: "Pempek Adaan", price: 10000, image: "https://images.unsplash.com/photo-1624466113928-d8d4d8cb90d4?auto=format&fit=crop&w=600&q=60" },
+      { name: "Paket Mix Pempek", price: 50000, image: "https://images.unsplash.com/photo-1617196032284-4d4d324a58b9?auto=format&fit=crop&w=600&q=60" }
+    ];
+
+    // ====== Tampilkan Produk ======
+    const grid = document.querySelector('.grid');
+    products.forEach(p => {
+      const card = document.createElement('div');
+      card.className = "bg-white rounded-lg shadow-lg overflow-hidden";
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.name}" class="w-full h-48 object-cover">
+        <div class="p-4 text-center">
+          <h3 class="font-semibold text-lg mb-2">${p.name}</h3>
+          <p class="text-amber-600 font-bold mb-3">Rp${p.price.toLocaleString()}</p>
+          <button class="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600" onclick="addToCart('${p.name}', ${p.price})">Tambah</button>
+        </div>`;
+      grid.appendChild(card);
+    });
+
+    // ====== Keranjang Belanja ======
+    let cart = [];
+
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) existing.quantity++;
+      else cart.push({ name, price, quantity: 1 });
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      document.getElementById('cartCount').textContent = cart.reduce((a, b) => a + b.quantity, 0);
+    }
+
+    const cartModal = document.getElementById('cartModal');
+    document.getElementById('cartButton').addEventListener('click', () => {
+      displayCart();
+      cartModal.classList.remove('hidden');
+    });
+
+    document.getElementById('closeCart').addEventListener('click', () => {
+      cartModal.classList.add('hidden');
+    });
+
+    function displayCart() {
+      const cartItemsDiv = document.getElementById('cartItems');
+      cartItemsDiv.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        cartItemsDiv.innerHTML += `
+          <div class="flex justify-between items-center border-b pb-1">
+            <span>${item.name} x${item.quantity}</span>
+            <span>Rp${(item.price * item.quantity).toLocaleString()}</span>
+          </div>`;
+      });
+      document.getElementById('cartTotal').textContent = `Total: Rp${total.toLocaleString()}`;
+    }
+
+    // ====== Checkout via WhatsApp ======
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('Keranjang masih kosong!');
+        return;
+      }
+      let message = "Halo, saya mau pesan Pempek Kenyal:%0A%0A";
+      let total = 0;
+      cart.forEach(item => {
+        message += `- ${item.name} x${item.quantity} = Rp${(item.price * item.quantity).toLocaleString()}%0A`;
+        total += item.price * item.quantity;
+      });
+      message += `%0ATotal: Rp${total.toLocaleString()}%0A%0AAlamat: [isi alamat Anda di sini]`;
+      window.open(`https://wa.me/6281234567890?text=${message}`, "_blank");
+    });
+  </script>
+</body>
+</html>
