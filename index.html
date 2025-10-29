@@ -468,17 +468,22 @@
                 },
                 total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
             };
-            
-            // Simulate order processing
-            alert('Pesanan berhasil dikirim! Kami akan menghubungi Anda segera untuk konfirmasi.');
-            
-            // Reset cart and close modal
-            cart = [];
-            updateCartUI();
-            hideCheckout();
-            e.target.reset();
-        });
 
+             fetch("https://script.google.com/macros/s/AKfycbyJLf1ZvmmwoEMpYH0ST7mf1UeRaHp5rv7SX7P75XzpV-Sfom1kfRAouoi2V1YPqBD3/exec", { method: "POST", body: JSON.stringify(orderData), headers: { "Content-Type": "application/json" }
+            })
+            .then(res => res.text())
+            .then(response => {
+                alert("✅ Pesanan berhasil dikirim! Data sudah masuk ke Google Sheet.");
+                cart = [];
+                updateCartUI();
+                hideCheckout();
+                e.target.reset();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("❌ Gagal mengirim pesanan, coba lagi nanti.");
+            });
+        });
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             loadProducts();
