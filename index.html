@@ -469,7 +469,10 @@
                 total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
             };
 
-             fetch("https://script.google.com/macros/s/AKfycbyJLf1ZvmmwoEMpYH0ST7mf1UeRaHp5rv7SX7P75XzpV-Sfom1kfRAouoi2V1YPqBD3/exec", { method: "POST", body: JSON.stringify(orderData), headers: { "Content-Type": "application/json" }
+             fetch("https://script.google.com/macros/s/AKfycbxUu6TfhstQZZtRrao2soRwJJO5IMK8ryqLx3mpyvDrcrBAhos-IvtnQVFF8xrMVH8m/exec", { 
+                method: "POST", 
+                body: JSON.stringify(orderData), 
+                headers: { "Content-Type": "application/json" }
             })
             .then(res => res.text())
             .then(response => {
