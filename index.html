@@ -386,12 +386,13 @@
                 cartItems.innerHTML = cart.map(item => `
                     <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                         <div class="flex items-center space-x-4">
-                            <div class="text-2xl">${item.image}</div>
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
                             <div>
                                 <h4 class="font-semibold">${item.name}</h4>
                                 <p class="text-gray-600">Rp ${item.price.toLocaleString()}</p>
                             </div>
                         </div>
+
                         <div class="flex items-center space-x-2">
                             <button onclick="updateQuantity(${item.id}, -1)" class="bg-gray-200 px-2 py-1 rounded">-</button>
                             <span class="px-3">${item.quantity}</span>
