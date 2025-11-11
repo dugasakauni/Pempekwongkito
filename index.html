@@ -466,51 +466,46 @@
         // Handle checkout form
         document.getElementById('checkout-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            // Update hidden fields sebelum submit
-            document.getElementById('form-items').value = JSON.stringify(cart.map(item => ({
-                name: item.name,
-                price: item.price,
-                quantity: item.quantity
-            })));
-            document.getElementById('form-total').value = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            // Kirim ke Formspree
-            e.target.submit();
-            
-            // Kirim juga ke Google Sheets (via Apps Script)
+
+            // Siapkan data
+            const dataToSend = {
+                name: e.target.name.value,
+                phone: e.target.phone.value,
+                address: e.target.address.value,
+                payment: e.target.payment.value,
+                items: cart.map(item => `${item.name} (${item.quantity}x)`).join(", "),
+                totalItems: cart.length,
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+            };
+
             try {
-                const nama = e.target.name.value;
-                const phone = e.target.phone.value;
-                const address = e.target.address.value;
-                const payment = e.target.payment.value;
-                const items = cart.map(item => `${item.name} (${item.quantity}x)`).join(", ");
-                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                
-                await fetch("https://script.google.com/macros/s/AKfycbzAcm7lL3q5pdfSldPjjwPVfWGPen9_z_UXgvO8FGYR1mT9IeMGLyZBGjnsHb3gimyq/exec", {
+                // Kirim ke Formspree
+                e.target.submit();
+
+                // Kirim ke Google Sheets via Apps Script
+                const response = await fetch("https://script.google.com/macros/s/AKfycbz2lc-GF4APH6N433rZoNhYI9uaCacqWm7ZGNSnF6m1mja7Y2jJwNl2Rqt-nOkeYIvr/exec", {  // <-- Ganti dengan URL Web App-mu
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        name: e.target.name.value,
-                        phone: e.target.phone.value,
-                        address: e.target.address.value,
-                        payment: e.target.payment.value,
-                        items: cart.map(item => `${item.name} (${item.quantity}x)`).join(", "),
-                        totalItems: cart.length,
-                        total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-                    })
+                    body: JSON.stringify(dataToSend)
                 });
 
+                const result = await response.json();
 
-                alert("✅ Pesanan berhasil dikirim!");
-                cart = [];
-                updateCartUI();
-                hideCheckout();
+                if(result.status === "success") {
+                    alert("✅ Pesanan berhasil dikirim! Data tersimpan di Formspree dan Google Sheets.");
+                    cart = [];
+                    updateCartUI();
+                    hideCheckout();
+                } else {
+                    alert("⚠️ Pesanan terkirim ke Formspree, tapi gagal simpan ke Google Sheets: " + result.message);
+                }
+
             } catch (error) {
                 console.error(error);
-                alert("⚠️ Pesanan terkirim ke Formspree, tapi gagal simpan ke Google Sheets.");
+                alert("⚠️ Terjadi error saat mengirim ke Google Sheets: " + error.message);
             }
         });
+
 
 
         // Initialize
