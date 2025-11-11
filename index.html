@@ -270,6 +270,12 @@
     </div>
 
     <script>
+
+        // Google Sheets API Setup (untuk admin)
+        const SHEET_ID = "1q3pBsmFtwxxarPrRXSAidM_WgOVahxzHakKvQJnihUk"; 
+        const API_KEY = "AIzaSyCBsNf0WIeeYUDJWrIqrXQCY1iXEfV8jhc"; 
+        const SHEET_NAME = "Sheet1"; 
+
         // Product data
         const products = [
             {
@@ -458,7 +464,9 @@
         }
 
         // Handle checkout form
-        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
             // Update hidden fields sebelum submit
             document.getElementById('form-items').value = JSON.stringify(cart.map(item => ({
                 name: item.name,
@@ -467,12 +475,36 @@
             })));
             document.getElementById('form-total').value = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             
-            // Setelah ini form akan submit otomatis ke Formspree
-            alert("✅ Pesanan berhasil dikirim! Data sudah masuk ke Formspree.");
-            cart = [];
-            updateCartUI();
-            hideCheckout();
+            // Kirim ke Formspree
+            e.target.submit();
+            
+            // Kirim juga ke Google Sheets (via Apps Script)
+            try {
+                const nama = e.target.name.value;
+                const phone = e.target.phone.value;
+                const address = e.target.address.value;
+                const payment = e.target.payment.value;
+                const items = cart.map(item => `${item.name} (${item.quantity}x)`).join(", ");
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                
+                await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}!A1:append?valueInputOption=RAW&key=${API_KEY}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        values: [[new Date().toLocaleString(), nama, phone, address, payment, items, cart.length, total]]
+                    })
+                });
+
+                alert("✅ Pesanan berhasil dikirim! Data juga tersimpan di Google Sheets dan Formspree.");
+                cart = [];
+                updateCartUI();
+                hideCheckout();
+            } catch (error) {
+                console.error(error);
+                alert("⚠️ Pesanan terkirim ke Formspree, tapi gagal simpan ke Google Sheets.");
+            }
         });
+
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
