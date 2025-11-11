@@ -487,15 +487,22 @@
                 const items = cart.map(item => `${item.name} (${item.quantity}x)`).join(", ");
                 const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 
-                await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}!A1:append?valueInputOption=RAW&key=${API_KEY}`, {
+                await fetch("https://script.google.com/macros/s/AKfycbzAcm7lL3q5pdfSldPjjwPVfWGPen9_z_UXgvO8FGYR1mT9IeMGLyZBGjnsHb3gimyq/exec", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        values: [[new Date().toLocaleString(), nama, phone, address, payment, items, cart.length, total]]
+                        name: e.target.name.value,
+                        phone: e.target.phone.value,
+                        address: e.target.address.value,
+                        payment: e.target.payment.value,
+                        items: cart.map(item => `${item.name} (${item.quantity}x)`).join(", "),
+                        totalItems: cart.length,
+                        total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
                     })
                 });
 
-                alert("✅ Pesanan berhasil dikirim! Data juga tersimpan di Google Sheets dan Formspree.");
+
+                alert("✅ Pesanan berhasil dikirim!");
                 cart = [];
                 updateCartUI();
                 hideCheckout();
@@ -510,6 +517,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadProducts();
         });
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98a6ac77e39d6034',t:'MTc1OTc2OTU5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</script>
+</body>
 </html>
