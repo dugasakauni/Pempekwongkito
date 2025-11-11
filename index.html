@@ -464,45 +464,51 @@
         }
 
         // Handle checkout form
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx6ucV2PvwZnwsm59fJuO6F3QPhXsWVczmfhmBQkBknWYMlN16--fda23xtAeTJinuX/exec";
+
         document.getElementById('checkout-form').addEventListener('submit', async function(e) {
             e.preventDefault();
+    
+            document.getElementById('form-items').value = JSON.stringify(cart.map(item => ({
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity
+            })));
+            document.getElementById('form-total').value = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-            // Siapkan data
-            const dataToSend = {
-                name: e.target.name.value,
-                phone: e.target.phone.value,
-                address: e.target.address.value,
-                payment: e.target.payment.value,
-                items: cart.map(item => `${item.name} (${item.quantity}x)`).join(", "),
-                totalItems: cart.length,
-                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-            };
+            e.target.submit(); // kirim ke Formspree juga
 
             try {
-                // Kirim ke Formspree
-                e.target.submit();
-
-                // Kirim ke Google Sheets via Apps Script
-                const response = await fetch("https://script.google.com/macros/s/AKfycbz2lc-GF4APH6N433rZoNhYI9uaCacqWm7ZGNSnF6m1mja7Y2jJwNl2Rqt-nOkeYIvr/exec", {  // <-- Ganti dengan URL Web App-mu
+                const nama = e.target.name.value;
+                const phone = e.target.phone.value;
+                const address = e.target.address.value;
+                const payment = e.target.payment.value;
+                const items = cart.map(item => `${item.name} (${item.quantity}x)`).join(", ");
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+                // kirim ke Google Sheet via Google Apps Script
+                await fetch(SCRIPT_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(dataToSend)
+                    body: JSON.stringify({
+                        nama,
+                        phone,
+                        address,
+                        payment,
+                        items,
+                        totalItems,
+                        total
+                    })
                 });
 
-                const result = await response.json();
-
-                if(result.status === "success") {
-                    alert("✅ Pesanan berhasil dikirim! Data tersimpan di Formspree dan Google Sheets.");
-                    cart = [];
-                    updateCartUI();
-                    hideCheckout();
-                } else {
-                    alert("⚠️ Pesanan terkirim ke Formspree, tapi gagal simpan ke Google Sheets: " + result.message);
-                }
-
+                alert("✅ Pesanan berhasil dikirim dan disimpan di Google Sheets!");
+                cart = [];
+                updateCartUI();
+                hideCheckout();
             } catch (error) {
                 console.error(error);
-                alert("⚠️ Terjadi error saat mengirim ke Google Sheets: " + error.message);
+                alert("⚠️ Pesanan terkirim ke Formspree, tapi gagal simpan ke Google Sheets.");
             }
         });
 
@@ -512,6 +518,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadProducts();
         });
-</script>
-</body>
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98a6ac77e39d6034',t:'MTc1OTc2OTU5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
