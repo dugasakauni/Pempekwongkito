@@ -470,7 +470,7 @@
             const data = Object.fromEntries(new FormData(form).entries());
 
             // Kirim ke Google Sheets
-            fetch('https://script.google.com/macros/s/AKfycbyMfZxrjzjzp1Hr0MzrPWXHuP7qmP-f6pznO7bmyxG3QVOZPjxceW_WPDZvQzgreFF1/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbx6ucV2PvwZnwsm59fJuO6F3QPhXsWVczmfhmBQkBknWYMlN16--fda23xtAeTJinuX/exec', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' }
