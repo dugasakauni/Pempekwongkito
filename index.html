@@ -450,6 +450,9 @@
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             checkoutTotal.textContent = `Rp ${total.toLocaleString()}`;
             
+            document.getElementById('form-items').value = cart.map(item => `${item.name} (${item.quantity}x)`).join(", ");
+            document.getElementById('form-total').value = total;
+            
             modal.classList.remove('hidden');
         }
 
@@ -459,12 +462,33 @@
         }
 
         // Handle checkout form
-        document.getElementById('checkout-form').addEventListener('submit', function(e) {
-            alert("✅ Pesanan berhasil dikirim!");
-            cart = [];
-            updateCartUI();
-            hideCheckout();
+        const form = document.getElementById('checkout-form');
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            // Ambil data dari form
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            // Kirim ke Google Sheets
+            fetch('https://script.google.com/macros/s/AKfycbyMfZxrjzjzp1Hr0MzrPWXHuP7qmP-f6pznO7bmyxG3QVOZPjxceW_WPDZvQzgreFF1/exec', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(res => res.json())
+            .then(response => {
+                alert('✅ Pesanan berhasil dikirim ke Google Sheets!');
+                cart = []; // reset cart
+                updateCartUI();
+                hideCheckout();
+                form.submit(); // submit juga ke Formspree
+            })
+            .catch(err => {
+                alert('⚠️ Terjadi kesalahan saat kirim ke Google Sheets, tapi tetap dikirim ke Formspree.');
+                form.submit(); // fallback
+            });
         });
+
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
