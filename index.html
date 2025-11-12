@@ -271,11 +271,6 @@
 
     <script>
 
-        // Google Sheets API Setup (untuk admin)
-        const SHEET_ID = "1q3pBsmFtwxxarPrRXSAidM_WgOVahxzHakKvQJnihUk"; 
-        const API_KEY = "AIzaSyCBsNf0WIeeYUDJWrIqrXQCY1iXEfV8jhc"; 
-        const SHEET_NAME = "Sheet1"; 
-
         // Product data
         const products = [
             {
@@ -464,49 +459,12 @@
         }
 
         // Handle checkout form
-        const SHEET_URL = "https://script.google.com/macros/s/AKfycbx6ucV2PvwZnwsm59fJuO6F3QPhXsWVczmfhmBQkBknWYMlN16--fda23xtAeTJinuX/exec";
-
-        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            try {
-            const nama = e.target.name.value;
-            const phone = e.target.phone.value;
-            const address = e.target.address.value;
-            const payment = e.target.payment.value;
-            const items = cart.map(item => `${item.name} (${item.quantity}x)`).join(", ");
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-            // Kirim ke Google Sheets
-            await fetch(SHEET_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    values: [
-                        [new Date().toLocaleString(), nama, phone, address, payment, items, totalItems, total]
-                    ]
-                })
-            });
-
-            // Kirim juga ke Formspree 
-            e.target.submit();
-
-            alert("✅ Pesanan berhasil dikirim ke Formspree dan disimpan ke Google Sheets!");
-
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            alert("✅ Pesanan berhasil dikirim!");
             cart = [];
             updateCartUI();
             hideCheckout();
-
-        } catch (error) {
-            console.error(error);
-            alert("⚠️ Gagal menyimpan ke Google Sheets, tapi Formspree tetap menerima datanya.");
-            e.target.submit(); // fallback, biar Formspree tetap jalan
-        }
-    });
-
-
-
+        });
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
