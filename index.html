@@ -463,11 +463,45 @@
 
         // Handle checkout form
         const form = document.getElementById('checkout-form');
-        form.addEventListener('submit', () => {
-            alert('✅ Pesanan berhasil dikirim! Terima kasih telah memesan Pempek Wong Kito ❤️');
-            cart = []; // kosongkan keranjang
-            updateCartUI();
-            hideCheckout();
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // stop submit default untuk kontrol penuh
+
+            const formData = new FormData(form);
+
+            try {
+                // 1. KIRIM UTAMA — KE ADMIN (add_order.php)
+                const adminResponse = await fetch(form.action, {
+                    method: "POST",
+                    body: formData
+                });
+
+                const adminText = await adminResponse.text();
+                console.log("Response admin:", adminText);
+
+                // 2. TETAP KIRIM JUGA KE FORMSPREE (email)
+                fetch("https://formspree.io/f/manlgkgl", {
+                    method: "POST",
+                    body: formData
+                }).catch(err => console.log("Gagal kirim ke Formspree:", err));
+
+                // 3. POPUP SUKSES
+                alert("✅ Pesanan berhasil dikirim! Terima kasih sudah memesan ❤️");
+
+                // 4. RESET KERANJANG
+                cart = [];
+                updateCartUI();
+
+                // 5. TUTUP CHECKOUT
+                hideCheckout();
+
+                // 6. RESET FORM
+                form.reset();
+
+            } catch (error) {
+                console.error(error);
+                alert("❌ Gagal mengirim pesanan. Coba lagi ya!");
+            }
         });
 
 
